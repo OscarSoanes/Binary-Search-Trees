@@ -1,5 +1,5 @@
 export class Node {
-  constructor(value, left = null, right = null) {
+  constructor(value = null, left = null, right = null) {
     this.value = value;
     this.left = left;
     this.right = right;
@@ -9,7 +9,7 @@ export class Node {
    * Sets the left side of the current Node
    * @param {any} node the Node to be set
    */
-  set left(node) {
+  setLeft(node) {
     this.left = node;
   }
 
@@ -17,7 +17,7 @@ export class Node {
    * Sets the right side of the current Node
    * @param {any} node the Node to be set
    */
-  set right(node) {
+  setRight(node) {
     this.right = node;
   }
 }
