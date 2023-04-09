@@ -41,11 +41,48 @@ class Tree {
   getRoot() {
     return this.tree;
   }
+
+  /**
+   * Inserts a value at the leaf of the arleady defined tree.
+   * @param {*} value the value to be inserted to the leaf of the tree
+   */
+  insert(value) {
+    function setLocation(target, root) {
+      if (root.value === target) {
+        return;
+      }
+
+      //   Checks if the root is greater/ less than target, and a null check.
+      if (root.value < target) {
+        if (root.right === null) {
+          root.right = new Node(target);
+        } else {
+          setLocation(target, root.right);
+        }
+      }
+      if (root.value > target) {
+        if (root.left === null) {
+          root.left = new Node(target);
+        } else {
+          setLocation(target, root.left);
+        }
+      }
+    }
+
+    // Check if tree is empty
+    if (this.tree === null) {
+      this.tree = new Node(value);
+      return;
+    }
+
+    setLocation(value, this.tree);
+  }
 }
 
 // Testing Purposes
 const tree = new Tree();
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree.insert(9);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
