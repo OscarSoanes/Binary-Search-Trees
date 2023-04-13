@@ -357,9 +357,14 @@ class Tree {
 
 // Testing Purposes
 const tree = new Tree();
-tree.buildTree([1, 3, 4, 5, 7, 9, 23, 67, 324, 2617, 6345, 28371, 91812, 2312312, 12371812]);
-tree.insert(9);
-tree.insert(91812);
+
+function randomNumbers() {
+  let arr = [];
+  for (let index = 0; index < 20; index++) {
+    arr.push(Math.floor(Math.random() * 100));
+  }
+  return arr;
+}
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -374,15 +379,100 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-tree.delete(8);
-
-console.log(tree.levelOrder());
-console.log(tree.preOrder());
-console.log(tree.inOrder());
-console.log(tree.postOrder());
-console.log(tree.height());
-console.log(tree.depth());
-console.log(tree.isBalanced());
-console.log(tree.rebalance());
-
+tree.buildTree(randomNumbers());
 prettyPrint(tree.getRoot());
+/**
+ * Example Data:
+ *
+ * │               ┌── 92
+ * │           ┌── 88
+ * │       ┌── 74
+ * │       │   └── 71
+ * │   ┌── 70
+ * │   │   │   ┌── 68
+ * │   │   └── 67
+ * │   │       └── 65
+ * └── 60
+ *     │           ┌── 58
+ *     │       ┌── 53
+ *     │   ┌── 44
+ *     │   │   └── 38
+ *     └── 34
+ *         │   ┌── 15
+ *         └── 7
+ *             └── 3
+ */
+
+console.log(tree.isBalanced());
+/**
+ * true
+ */
+
+console.log(`level order: ${tree.levelOrder()}`);
+console.log(`pre order: ${tree.preOrder()}`);
+console.log(`post order: ${tree.postOrder()}`);
+console.log(`in order: ${tree.inOrder()}`);
+
+/** Example output:
+ *
+ * level order: 59,25,80,5,38,70,90,1,8,28,47,68,72,82,91,12,52,78,87,92
+ * pre order: 59,25,5,1,8,12,38,28,47,52,80,70,68,72,78,90,82,87,91,92
+ * post order: 92,91,87,82,90,78,72,68,70,80,52,47,28,38,12,8,1,5,25,59
+ * in order: 1,5,8,12,25,28,38,47,52,59,68,70,72,78,80,82,87,90,91,92
+ */
+
+tree.insert(101);
+tree.insert(102);
+tree.insert(103);
+tree.insert(104);
+
+console.log(tree.isBalanced());
+/**
+ * false
+ */
+
+tree.rebalance();
+prettyPrint(tree.getRoot());
+/** Example output:
+ *
+ * │               ┌── 104
+ * │           ┌── 103
+ * │           │   └── 102
+ * │       ┌── 101
+ * │       │   │   ┌── 94
+ * │       │   └── 92
+ * │   ┌── 88
+ * │   │   │       ┌── 82
+ * │   │   │   ┌── 80
+ * │   │   └── 77
+ * │   │       │   ┌── 76
+ * │   │       └── 73
+ * └── 72
+ *     │           ┌── 69
+ *     │       ┌── 61
+ *     │   ┌── 59
+ *     │   │   │   ┌── 56
+ *     │   │   └── 50
+ *     └── 42
+ *         │       ┌── 29
+ *         │   ┌── 25
+ *         └── 12
+ *             │   ┌── 5
+ *             └── 0
+ */
+
+console.log(tree.isBalanced());
+/**
+ * true
+ */
+
+console.log(`level order: ${tree.levelOrder()}`);
+console.log(`pre order: ${tree.preOrder()}`);
+console.log(`post order: ${tree.postOrder()}`);
+console.log(`in order: ${tree.inOrder()}`);
+/**
+ * level order: 65,34,93,26,55,90,102,7,29,43,56,68,91,95,103,12,33,45,61,72,92,101,104
+ * pre order: 65,34,26,7,12,29,33,55,43,45,56,61,93,90,68,72,91,92,102,95,101,103,104
+ * post order: 104,103,101,95,102,92,91,72,68,90,93,61,56,45,43,55,33,29,12,7,26,34,65
+ * in order: 7,12,26,29,33,34,43,45,55,56,61,65,68,72,90,91,92,93,95,101,102,103,104
+ */
