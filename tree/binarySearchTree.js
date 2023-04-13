@@ -200,11 +200,11 @@ class Tree {
     let order = [];
     order.push(this.tree);
 
-    let msg = "";
+    let result = [];
 
     while (order.length !== 0) {
       const current = order[0];
-      msg += `${current.value}, `;
+      result.push(current.value);
 
       if (current.left != null) {
         order.push(current.left);
@@ -216,7 +216,26 @@ class Tree {
       order.shift();
     }
 
-    return msg.slice(0, -2);
+    return result;
+  }
+
+  preOrder() {
+    const result = [];
+
+    function printNodes(root) {
+      if (root === null) {
+        return;
+      }
+
+      result.push(root.value);
+
+      printNodes(root.left);
+      printNodes(root.right);
+    }
+
+    printNodes(this.tree);
+
+    return result;
   }
 }
 
@@ -242,3 +261,4 @@ tree.delete(8);
 prettyPrint(tree.getRoot());
 
 console.log(tree.levelOrder());
+console.log(tree.preorder());
