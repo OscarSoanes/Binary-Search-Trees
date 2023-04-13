@@ -191,6 +191,33 @@ class Tree {
 
     return getNode(value, this.tree);
   }
+
+  levelOrder() {
+    if (this.tree === null) {
+      return;
+    }
+
+    let order = [];
+    order.push(this.tree);
+
+    let msg = "";
+
+    while (order.length !== 0) {
+      const current = order[0];
+      msg += `${current.value}, `;
+
+      if (current.left != null) {
+        order.push(current.left);
+      }
+      if (current.right != null) {
+        order.push(current.right);
+      }
+
+      order.shift();
+    }
+
+    return msg.slice(0, -2);
+  }
 }
 
 // Testing Purposes
@@ -214,4 +241,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 tree.delete(8);
 prettyPrint(tree.getRoot());
 
-console.log(tree.find(4));
+console.log(tree.levelOrder());
