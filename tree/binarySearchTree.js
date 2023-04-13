@@ -77,6 +77,95 @@ class Tree {
 
     setLocation(value, this.tree);
   }
+
+  delete(value) {
+    function getNode(value, root, parent) {
+      // if reached the end of tree
+      if (root === null) {
+        return null;
+      }
+
+      // if value is found return the node
+      if (root.value === value) {
+        if (parent === undefined) {
+          return root;
+        } else {
+          return parent;
+        }
+      }
+
+      // recursively call until less than or greater than
+      if (root.value < value) {
+        return getNode(value, root.right, root);
+      } else {
+        return getNode(value, root.left, root);
+      }
+    }
+
+    function getLeftMostNode(root, parent) {
+      if (root.left === null) {
+        return parent;
+      }
+
+      return getLeftMostNode(root.left, root);
+    }
+
+    if (this.tree === null) {
+      return;
+    }
+
+    let parent = getNode(value, this.tree);
+
+    if (parent === null) {
+      return;
+    }
+
+    let node;
+    let isRight;
+    if (parent.value > value) {
+      node = parent.left;
+      isRight = false;
+    } else {
+      node = parent.right;
+      isRight = true;
+    }
+
+    // Check if the node has no children.
+    if (node.left === null && node.right === null) {
+      if (isRight === true) {
+        parent.right = null;
+      } else {
+        parent.left = null;
+      }
+      return;
+    }
+
+    // XOR if either left or right is null
+    if ((node.left === null) ^ (node.right === null)) {
+      let child;
+      if (node.left != null) {
+        child = node.left;
+      } else {
+        child = node.right;
+      }
+
+      if (isRight === true) {
+        parent.right = child;
+      } else {
+        parent.left = child;
+      }
+      return;
+    }
+
+    const replacedNodeParent = getLeftMostNode(parent.right, parent);
+    const replacedNode = replacedNodeParent.left;
+
+    if (replacedNode.right !== null) {
+      replacedNodeParent.left = replacedNode.right;
+    }
+
+    parent.value = replacedNode.value;
+  }
 }
 
 // Testing Purposes
@@ -97,4 +186,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+tree.delete(2);
 prettyPrint(tree.getRoot());
