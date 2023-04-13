@@ -237,6 +237,24 @@ class Tree {
 
     return result;
   }
+
+  inOrder() {
+    const result = [];
+
+    function printNodes(root) {
+      if (root === null) {
+        return;
+      }
+
+      printNodes(root.left);
+      result.push(root.value);
+      printNodes(root.right);
+    }
+
+    printNodes(this.tree);
+
+    return result;
+  }
 }
 
 // Testing Purposes
@@ -261,4 +279,5 @@ tree.delete(8);
 prettyPrint(tree.getRoot());
 
 console.log(tree.levelOrder());
-console.log(tree.preorder());
+console.log(tree.preOrder());
+console.log(tree.inOrder());
