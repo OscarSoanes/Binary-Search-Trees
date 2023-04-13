@@ -346,11 +346,18 @@ class Tree {
     }
     return false;
   }
+
+  rebalance() {
+    const treeDat = this.inOrder();
+    this.buildTree(treeDat);
+
+    return this.tree;
+  }
 }
 
 // Testing Purposes
 const tree = new Tree();
-tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree.buildTree([1, 3, 4, 5, 7, 9, 23, 67, 324, 2617, 6345, 28371, 91812, 2312312, 12371812]);
 tree.insert(9);
 tree.insert(91812);
 
@@ -368,7 +375,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 tree.delete(8);
-prettyPrint(tree.getRoot());
 
 console.log(tree.levelOrder());
 console.log(tree.preOrder());
@@ -377,3 +383,6 @@ console.log(tree.postOrder());
 console.log(tree.height());
 console.log(tree.depth());
 console.log(tree.isBalanced());
+console.log(tree.rebalance());
+
+prettyPrint(tree.getRoot());
