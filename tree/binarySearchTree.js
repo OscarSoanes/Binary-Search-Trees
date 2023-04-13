@@ -275,15 +275,15 @@ class Tree {
   }
 
   height() {
-    function getDepths(root, height = 0) {
+    function getHeight(root, height = 0) {
       if (root === null) {
         return height;
       }
 
       height++;
 
-      const leftSideHeight = getDepths(root.left, height);
-      const rightSideHeight = getDepths(root.right, height);
+      const leftSideHeight = getHeight(root.left, height);
+      const rightSideHeight = getHeight(root.right, height);
 
       if (leftSideHeight > height) {
         height = leftSideHeight;
@@ -295,7 +295,56 @@ class Tree {
       return height;
     }
 
-    return getDepths(this.tree);
+    return getHeight(this.tree);
+  }
+
+  depth(value) {
+    function getDepth(root, value, depth = 0) {
+      if (root === null) {
+        return -1;
+      }
+
+      if (root.value === value) {
+        return depth;
+      }
+
+      depth++;
+
+      if (root.value < value) {
+        return getDepth(root.right, value, depth++);
+      } else {
+        return getDepth(root.left, value, depth++);
+      }
+    }
+
+    return getDepth(this.tree, value);
+  }
+
+  isBalanced() {
+    function getHeightsOfNode(root, height = 0) {
+      if (root === null) {
+        return height;
+      }
+
+      height++;
+      const leftHeight = getHeightsOfNode(root.left, height);
+      const rightHeight = getHeightsOfNode(root.right, height);
+
+      if (leftHeight > height) {
+        height = leftHeight;
+      }
+      if (rightHeight > height) {
+        height = rightHeight;
+      }
+      return height;
+    }
+    const left = getHeightsOfNode(this.tree.left);
+    const right = getHeightsOfNode(this.tree.right);
+
+    if (left === right || left + 1 === right || left - 1 === right) {
+      return true;
+    }
+    return false;
   }
 }
 
@@ -303,6 +352,7 @@ class Tree {
 const tree = new Tree();
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.insert(9);
+tree.insert(91812);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -325,3 +375,5 @@ console.log(tree.preOrder());
 console.log(tree.inOrder());
 console.log(tree.postOrder());
 console.log(tree.height());
+console.log(tree.depth());
+console.log(tree.isBalanced());
