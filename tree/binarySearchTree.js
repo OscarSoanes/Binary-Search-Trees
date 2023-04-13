@@ -171,6 +171,26 @@ class Tree {
     }
     node.value = replacedNode.value;
   }
+
+  find(value) {
+    function getNode(value, root) {
+      if (root === null) {
+        return;
+      }
+
+      if (root.value === value) {
+        return root;
+      }
+
+      if (root.value < value) {
+        return getNode(value, root.right, root);
+      } else {
+        return getNode(value, root.left, root);
+      }
+    }
+
+    return getNode(value, this.tree);
+  }
 }
 
 // Testing Purposes
@@ -191,6 +211,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-tree.delete(4);
 tree.delete(8);
 prettyPrint(tree.getRoot());
+
+console.log(tree.find(4));
