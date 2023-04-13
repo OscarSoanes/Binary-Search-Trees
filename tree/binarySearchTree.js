@@ -104,7 +104,7 @@ class Tree {
 
     function getLeftMostNode(root, parent) {
       if (root.left === null) {
-        return parent;
+        return [root, parent];
       }
 
       return getLeftMostNode(root.left, root);
@@ -125,9 +125,11 @@ class Tree {
     if (parent.value > value) {
       node = parent.left;
       isRight = false;
-    } else {
+    } else if (parent.value < value) {
       node = parent.right;
       isRight = true;
+    } else {
+      node = parent;
     }
 
     // Check if the node has no children.
@@ -157,14 +159,17 @@ class Tree {
       return;
     }
 
-    const replacedNodeParent = getLeftMostNode(parent.right, parent);
-    const replacedNode = replacedNodeParent.left;
+    const replacedNodeData = getLeftMostNode(node.right, node);
 
-    if (replacedNode.right !== null) {
+    const replacedNode = replacedNodeData[0];
+    const replacedNodeParent = replacedNodeData[1];
+
+    if (replacedNodeParent === node) {
+      replacedNodeParent.right = replacedNode.right;
+    } else {
       replacedNodeParent.left = replacedNode.right;
     }
-
-    parent.value = replacedNode.value;
+    node.value = replacedNode.value;
   }
 }
 
@@ -186,5 +191,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-tree.delete(2);
+tree.delete(4);
+tree.delete(8);
 prettyPrint(tree.getRoot());
