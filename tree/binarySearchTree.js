@@ -273,6 +273,30 @@ class Tree {
 
     return result;
   }
+
+  height() {
+    function getDepths(root, height = 0) {
+      if (root === null) {
+        return height;
+      }
+
+      height++;
+
+      const leftSideHeight = getDepths(root.left, height);
+      const rightSideHeight = getDepths(root.right, height);
+
+      if (leftSideHeight > height) {
+        height = leftSideHeight;
+      }
+      if (rightSideHeight > height) {
+        height = rightSideHeight;
+      }
+
+      return height;
+    }
+
+    return getDepths(this.tree);
+  }
 }
 
 // Testing Purposes
@@ -300,3 +324,4 @@ console.log(tree.levelOrder());
 console.log(tree.preOrder());
 console.log(tree.inOrder());
 console.log(tree.postOrder());
+console.log(tree.height());
